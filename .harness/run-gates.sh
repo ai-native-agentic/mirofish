@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECT_NAME="mirofish"
 INCLUDE_PATHS=("backend/app")
-TEST_PATH="backend/scripts/"
+TEST_PATH="backend/tests/"
 
 GREEN='[0;32m'
 RED='[0;31m'
