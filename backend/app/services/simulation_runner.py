@@ -7,21 +7,19 @@ import os
 import sys
 import json
 import time
-import asyncio
 import threading
 import subprocess
 import signal
 import atexit
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from queue import Queue
 
-from ..config import Config
 from ..utils.logger import get_logger
 from .zep_graph_memory_updater import ZepGraphMemoryManager
-from .simulation_ipc import SimulationIPCClient, CommandType, IPCResponse
+from .simulation_ipc import SimulationIPCClient
 
 logger = get_logger('mirofish.simulation_runner')
 
@@ -340,7 +338,7 @@ class SimulationRunner:
         config_path = os.path.join(sim_dir, "simulation_config.json")
         
         if not os.path.exists(config_path):
-            raise ValueError(f"模拟配置不存在，请先调用 /prepare 接口")
+            raise ValueError("模拟配置不存在，请先调用 /prepare 接口")
         
         with open(config_path, 'r', encoding='utf-8') as f:
             config = json.load(f)
@@ -1117,7 +1115,6 @@ class SimulationRunner:
         Returns:
             清理结果信息
         """
-        import shutil
         
         sim_dir = os.path.join(cls.RUN_STATE_DIR, simulation_id)
         

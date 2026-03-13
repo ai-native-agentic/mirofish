@@ -20,7 +20,7 @@ from zep_cloud.client import Zep
 
 from ..config import Config
 from ..utils.logger import get_logger
-from .zep_entity_reader import EntityNode, ZepEntityReader
+from .zep_entity_reader import EntityNode
 
 logger = get_logger('mirofish.oasis_profile')
 
@@ -310,7 +310,7 @@ class OasisProfileGenerator:
         
         # 必须有graph_id才能进行搜索
         if not self.graph_id:
-            logger.debug(f"跳过Zep检索：未设置graph_id")
+            logger.debug("跳过Zep检索：未设置graph_id")
             return results
         
         comprehensive_query = f"关于{entity_name}的所有信息、活动、事件、关系和背景"
@@ -581,7 +581,6 @@ class OasisProfileGenerator:
     
     def _fix_truncated_json(self, content: str) -> str:
         """修复被截断的JSON（输出被max_tokens限制截断）"""
-        import re
         
         # 如果JSON被截断，尝试闭合它
         content = content.strip()
@@ -632,7 +631,7 @@ class OasisProfileGenerator:
                 result = json.loads(json_str)
                 result["_fixed"] = True
                 return result
-            except json.JSONDecodeError as e:
+            except json.JSONDecodeError:
                 # 5. 如果还是失败，尝试更激进的修复
                 try:
                     # 移除所有控制字符
@@ -654,7 +653,7 @@ class OasisProfileGenerator:
         
         # 如果提取到了有意义的内容，标记为已修复
         if bio_match or persona_match:
-            logger.info(f"从损坏的JSON中提取了部分信息")
+            logger.info("从损坏的JSON中提取了部分信息")
             return {
                 "bio": bio,
                 "persona": persona,
@@ -662,7 +661,7 @@ class OasisProfileGenerator:
             }
         
         # 7. 完全失败，返回基础结构
-        logger.warning(f"JSON修复失败，返回基础结构")
+        logger.warning("JSON修复失败，返回基础结构")
         return {
             "bio": entity_summary[:200] if entity_summary else f"{entity_type}: {entity_name}",
             "persona": entity_summary or f"{entity_name}是一个{entity_type}。"
@@ -796,7 +795,7 @@ class OasisProfileGenerator:
         
         elif entity_type_lower in ["publicfigure", "expert", "faculty"]:
             return {
-                "bio": f"Expert and thought leader in their field.",
+                "bio": "Expert and thought leader in their field.",
                 "persona": f"{entity_name} is a recognized {entity_type.lower()} who shares insights and opinions on important matters. They are known for their expertise and influence in public discourse.",
                 "age": random.randint(35, 60),
                 "gender": random.choice(["male", "female"]),
@@ -939,7 +938,7 @@ class OasisProfileGenerator:
                     user_name=self._generate_username(entity.name),
                     name=entity.name,
                     bio=f"{entity_type}: {entity.name}",
-                    persona=entity.summary or f"A participant in social discussions.",
+                    persona=entity.summary or "A participant in social discussions.",
                     source_entity_uuid=entity.uuid,
                     source_entity_type=entity_type,
                 )
@@ -1020,14 +1019,14 @@ class OasisProfileGenerator:
             f"[已生成] {entity_name} ({entity_type})",
             f"{separator}",
             f"用户名: {profile.user_name}",
-            f"",
-            f"【简介】",
+            "",
+            "【简介】",
             f"{profile.bio}",
-            f"",
-            f"【详细人设】",
+            "",
+            "【详细人设】",
             f"{profile.persona}",
-            f"",
-            f"【基本属性】",
+            "",
+            "【基本属性】",
             f"年龄: {profile.age} | 性别: {profile.gender} | MBTI: {profile.mbti}",
             f"职业: {profile.profession} | 国家: {profile.country}",
             f"兴趣话题: {topics_str}",

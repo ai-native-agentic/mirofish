@@ -556,7 +556,7 @@ class TwitterSimulationRunner:
             if total_rounds < original_rounds:
                 print(f"\n轮数已截断: {original_rounds} -> {total_rounds} (max_rounds={max_rounds})")
         
-        print(f"\n模拟参数:")
+        print("\n模拟参数:")
         print(f"  - 总模拟时长: {total_hours}小时")
         print(f"  - 每轮时间: {minutes_per_round}分钟")
         print(f"  - 总轮数: {total_rounds}")
@@ -663,7 +663,7 @@ class TwitterSimulationRunner:
                       f"- elapsed: {elapsed:.1f}s")
         
         total_elapsed = (datetime.now() - start_time).total_seconds()
-        print(f"\n模拟循环完成!")
+        print("\n模拟循环完成!")
         print(f"  - 总耗时: {total_elapsed:.1f}秒")
         print(f"  - 数据库: {db_path}")
         

@@ -11,10 +11,9 @@ Report Agent服务
 
 import os
 import json
-import time
 import re
 from typing import Dict, Any, List, Optional, Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
@@ -22,11 +21,7 @@ from ..config import Config
 from ..utils.llm_client import LLMClient
 from ..utils.logger import get_logger
 from .zep_tools import (
-    ZepToolsService, 
-    SearchResult, 
-    InsightForgeResult, 
-    PanoramaResult,
-    InterviewResult
+    ZepToolsService
 )
 
 logger = get_logger('mirofish.report_agent')
@@ -1512,7 +1507,7 @@ class ReportAgent:
         # 检查强制收尾时 LLM 返回是否为 None
         if response is None:
             logger.error(f"章节 {section.title} 强制收尾时 LLM 返回 None，使用默认错误提示")
-            final_answer = f"（本章节生成失败：LLM 返回空响应，请稍后重试）"
+            final_answer = "（本章节生成失败：LLM 返回空响应，请稍后重试）"
         elif "Final Answer:" in response:
             final_answer = response.split("Final Answer:")[-1].strip()
         else:
@@ -2278,7 +2273,7 @@ class ReportManager:
         # 构建报告头部
         md_content = f"# {outline.title}\n\n"
         md_content += f"> {outline.summary}\n\n"
-        md_content += f"---\n\n"
+        md_content += "---\n\n"
         
         # 按顺序读取所有章节文件
         sections = cls.get_generated_sections(report_id)

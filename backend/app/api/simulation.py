@@ -12,7 +12,7 @@ from ..config import Config
 from ..services.zep_entity_reader import ZepEntityReader
 from ..services.oasis_profile_generator import OasisProfileGenerator
 from ..services.simulation_manager import SimulationManager, SimulationStatus
-from ..services.simulation_runner import SimulationRunner, RunnerStatus
+from ..services.simulation_runner import SimulationRunner
 from ..utils.logger import get_logger
 from ..models.project import ProjectManager
 
@@ -397,9 +397,7 @@ def prepare_simulation():
         }
     """
     import threading
-    import os
     from ..models.task import TaskManager, TaskStatus
-    from ..config import Config
     
     try:
         data = request.get_json() or {}
@@ -823,7 +821,6 @@ def _get_report_id_for_simulation(simulation_id: str) -> str:
         report_id 或 None
     """
     import json
-    from datetime import datetime
     
     # reports 目录路径：backend/uploads/reports
     # __file__ 是 app/api/simulation.py，需要向上两级到 backend/
@@ -962,7 +959,7 @@ def get_simulation_history():
             try:
                 created_date = sim_dict.get("created_at", "")[:10]
                 sim_dict["created_date"] = created_date
-            except:
+            except (TypeError, AttributeError, KeyError):
                 sim_dict["created_date"] = ""
             
             enriched_simulations.append(sim_dict)
@@ -1269,7 +1266,7 @@ def get_simulation_config(simulation_id: str):
         if not config:
             return jsonify({
                 "success": False,
-                "error": f"模拟配置不存在，请先调用 /prepare 接口"
+                "error": "模拟配置不存在，请先调用 /prepare 接口"
             }), 404
         
         return jsonify({
@@ -1554,7 +1551,7 @@ def start_simulation():
                         else:
                             return jsonify({
                                 "success": False,
-                                "error": f"模拟正在运行中，请先调用 /stop 接口停止，或使用 force=true 强制重新开始"
+                                "error": "模拟正在运行中，请先调用 /stop 接口停止，或使用 force=true 强制重新开始"
                             }), 400
 
                 # 如果是强制模式，清理运行日志

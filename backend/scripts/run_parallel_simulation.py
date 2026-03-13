@@ -68,11 +68,9 @@ import argparse
 import asyncio
 import json
 import logging
-import multiprocessing
 import random
 import signal
 import sqlite3
-import warnings
 from datetime import datetime
 from typing import Dict, Any, List, Optional, Tuple
 
@@ -1554,7 +1552,7 @@ async def main():
     minutes_per_round = time_config.get('minutes_per_round', 30)
     config_total_rounds = (total_hours * 60) // minutes_per_round
     
-    log_manager.info(f"模拟参数:")
+    log_manager.info("模拟参数:")
     log_manager.info(f"  - 总模拟时长: {total_hours}小时")
     log_manager.info(f"  - 每轮时间: {minutes_per_round}分钟")
     log_manager.info(f"  - 配置总轮数: {config_total_rounds}")
@@ -1565,9 +1563,9 @@ async def main():
     log_manager.info(f"  - Agent数量: {len(config.get('agent_configs', []))}")
     
     log_manager.info("日志结构:")
-    log_manager.info(f"  - 主日志: simulation.log")
-    log_manager.info(f"  - Twitter动作: twitter/actions.jsonl")
-    log_manager.info(f"  - Reddit动作: reddit/actions.jsonl")
+    log_manager.info("  - 主日志: simulation.log")
+    log_manager.info("  - Twitter动作: twitter/actions.jsonl")
+    log_manager.info("  - Reddit动作: reddit/actions.jsonl")
     log_manager.info("=" * 60)
     
     start_time = datetime.now()
@@ -1642,8 +1640,8 @@ async def main():
         log_manager.info("[Reddit] 环境已关闭")
     
     log_manager.info("=" * 60)
-    log_manager.info(f"全部完成!")
-    log_manager.info(f"日志文件:")
+    log_manager.info("全部完成!")
+    log_manager.info("日志文件:")
     log_manager.info(f"  - {os.path.join(simulation_dir, 'simulation.log')}")
     log_manager.info(f"  - {os.path.join(simulation_dir, 'twitter', 'actions.jsonl')}")
     log_manager.info(f"  - {os.path.join(simulation_dir, 'reddit', 'actions.jsonl')}")

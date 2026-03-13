@@ -81,7 +81,7 @@ def test_profile_formats():
         print(f"   文件: {twitter_path}")
         print(f"   行数: {len(rows)}")
         print(f"   表头: {list(rows[0].keys())}")
-        print(f"\n   示例数据 (第1行):")
+        print("\n   示例数据 (第1行):")
         for key, value in rows[0].items():
             print(f"     {key}: {value}")
         
@@ -92,7 +92,7 @@ def test_profile_formats():
         if missing:
             print(f"\n   [错误] 缺少字段: {missing}")
         else:
-            print(f"\n   [通过] 所有必需字段都存在")
+            print("\n   [通过] 所有必需字段都存在")
         
         # 测试Reddit JSON格式
         print("\n2. 测试Reddit Profile (JSON详细格式)")
@@ -106,7 +106,7 @@ def test_profile_formats():
         print(f"   文件: {reddit_path}")
         print(f"   条目数: {len(reddit_data)}")
         print(f"   字段: {list(reddit_data[0].keys())}")
-        print(f"\n   示例数据 (第1条):")
+        print("\n   示例数据 (第1条):")
         print(json.dumps(reddit_data[0], ensure_ascii=False, indent=4))
         
         # 验证详细格式字段
@@ -117,7 +117,7 @@ def test_profile_formats():
         if missing:
             print(f"\n   [错误] 缺少必需字段: {missing}")
         else:
-            print(f"\n   [通过] 所有必需字段都存在")
+            print("\n   [通过] 所有必需字段都存在")
         
         present_optional = set(optional_reddit_fields) & set(reddit_data[0].keys())
         print(f"   [信息] 可选字段: {present_optional}")
