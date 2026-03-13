@@ -25,5 +25,11 @@ COPY . .
 
 EXPOSE 3000 5001
 
+# Create non-root user
+RUN useradd -m -u 1000 appuser && \
+    chown -R appuser:appuser /app
+
+USER appuser
+
 # 同时启动前后端（开发模式）
 CMD ["npm", "run", "dev"]
