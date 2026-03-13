@@ -6,37 +6,22 @@ MiroFish is a swarm-intelligence simulation and prediction engine that models co
 
 ## STRUCTURE
 
-```
 mirofish/
-├── backend/                         # Python 3.11+ Flask API
+├── backend/
 │   ├── app/
-│   │   ├── api/                     # REST endpoints
-│   │   ├── models/                  # Data models
-│   │   ├── services/                # Business logic
-│   │   ├── utils/                   # Helpers
-│   │   └── config.py                # Configuration
+│   ├── logs/
 │   ├── scripts/
-│   │   ├── run_reddit_simulation.py # Reddit swarm simulation
-│   │   ├── run_twitter_simulation.py # Twitter swarm simulation
-│   │   ├── run_parallel_simulation.py # Multi-platform parallel runs
-│   │   └── action_logger.py         # Simulation event logging
-│   ├── uploads/                     # File upload storage
-│   ├── run.py                       # Flask entry point
-│   └── pyproject.toml               # Python dependencies (uv)
-│
-├── frontend/                        # Vue 3.5 + Vite
+│   ├── tests/
+│   └── pyproject.toml
+├── frontend/
+│   ├── public/
 │   ├── src/
-│   │   ├── components/              # Vue components
-│   │   ├── views/                   # Page views
-│   │   ├── router/                  # Vue Router
-│   │   └── main.js                  # Vue entry point
-│   ├── public/                      # Static assets
-│   └── package.json                 # Frontend dependencies
-│
-├── docker-compose.yml               # Docker orchestration
-├── Dockerfile                       # Container build
-└── package.json                     # Root monorepo scripts
-```
+│   ├── package.json
+├── static/
+│   └── image/
+├── AGENTS.md
+├── README.md
+├── package.json
 
 ## WHERE TO LOOK
 
@@ -60,28 +45,13 @@ mirofish/
 ## COMMANDS
 
 ```bash
-# Setup (first time)
-npm run setup              # Install frontend deps
-npm run setup:backend      # Install backend deps (uv sync)
-npm run setup:all          # Install all deps
-
-# Development
-npm run dev                # Run both backend + frontend (concurrently)
-npm run backend            # Run Flask backend only (port 5001)
-npm run frontend           # Run Vite dev server only (port 3000)
-
-# Production
-npm run build              # Build frontend for production
-
-# Backend-only (from backend/)
-cd backend
-uv run python run.py       # Start Flask server
-uv run python scripts/run_reddit_simulation.py    # Reddit simulation
-uv run python scripts/run_twitter_simulation.py   # Twitter simulation
-uv run python scripts/run_parallel_simulation.py  # Parallel simulations
-
-# Docker
-docker compose up          # Run containerized stack
+pnpm backend                           # cd backend && uv run python run.py
+pnpm build                           # cd frontend && npm run build
+pnpm dev                           # concurrently --kill-others -n "backend,frontend" -c "green,cyan" "npm run backend" "npm run frontend"
+pnpm frontend                           # cd frontend && npm run dev
+pnpm setup                           # npm install && cd frontend && npm install
+pnpm setup:all                           # npm run setup && npm run setup:backend
+pnpm setup:backend                           # cd backend && uv sync
 ```
 
 ## CONVENTIONS
