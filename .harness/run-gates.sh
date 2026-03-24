@@ -60,7 +60,7 @@ fi
 
 if [[ -n "$TEST_PATH" && -e "$PROJECT_ROOT/$TEST_PATH" ]]; then
   if python3 -c 'import pytest' >/dev/null 2>&1; then
-    run_gate "pytest" "pytest '$TEST_PATH' -q"
+    run_gate "pytest" "python3 -m pytest '$TEST_PATH' -q"
   else
     skip_gate "pytest" "pytest not installed"
   fi
